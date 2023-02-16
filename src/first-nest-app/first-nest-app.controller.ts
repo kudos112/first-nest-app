@@ -8,14 +8,16 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Res,
 } from '@nestjs/common';
 
 @Controller('first-nest-app')
 export class FirstNestAppController {
   @Get()
-  findAll() {
-    return 'This is my first nest app';
+  findAll(@Query() pagination) {
+    const { limit, offset } = pagination;
+    return `This is my first nest app limit=${limit} and offset=${offset}`;
   }
 
   @Get(':id')
@@ -55,12 +57,12 @@ export class FirstNestAppController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: String, @Body() body, @Res() response) {
+  update(@Param('id') id: string, @Body() body, @Res() response) {
     return response.status(401).send({ id, body });
   }
 
   @Delete(':id')
-  delete(@Param('id') id: String, @Res() response) {
+  delete(@Param('id') id: string, @Res() response) {
     return response.status(401).send({ success: `${id} deleted successfully` });
   }
 }
